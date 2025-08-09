@@ -5,6 +5,9 @@
 #
 
 # @lc code=start
+from collections import defaultdict
+
+
 class Solution(object):
     def topKFrequent(self, nums, k):
         """
@@ -12,6 +15,24 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        
-# @lc code=end
+        count = defaultdict(int)  # { num, count }
+        for n in nums:
+            count[n] += 1
 
+        # Create a list of empty lists
+        # index is the count of occurrences
+        freq = [[] for _ in range(len(nums) + 1)]
+
+        for key, val in count.items():
+            freq[val].append(key)
+
+        res = []
+        for i in range(len(freq) - 1, 0, -1):
+            for num in freq[i]:
+                if len(res) >= k:
+                    break
+                res.append(num)
+        return res
+
+
+# @lc code=end
